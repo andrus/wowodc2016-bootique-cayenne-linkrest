@@ -15,3 +15,13 @@ If this finishes successfully, MySQL should be available at 192.168.99.100:3306,
 ```
 cat demodb.sql | mysql -p -u root -h 192.168.99.100
 ```
+
+## The App
+
+``` 
+mvn clean package
+java -jar target/bq-demo-0.0.1-SNAPSHOT.jar 
+java -jar target/bq-demo-0.0.1-SNAPSHOT.jar --server --config=test.yml
+```
+
+
