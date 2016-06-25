@@ -1,5 +1,7 @@
 A simple Bootique/Cayenne/LinkRest app created live at WOWODC 2016.
 
+TODO: link to the presentation video once that becomes available.
+
 ## Prerequisites - MySQL setup 
 
 I used Docker on OSX with Kitematic (but you don't have to) :
