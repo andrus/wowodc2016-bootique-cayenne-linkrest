@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/7/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/7/modelMap http://cayenne.apache.org/schema/7/modelMap.xsd"
+	 project-version="7">
+	<property name="defaultPackage" value="com.objectstyle.bq_demo.cayenne"/>
+	<db-entity name="ARTIST" catalog="bqdemo">
+		<db-attribute name="ID" type="BIGINT" isPrimaryKey="true" isGenerated="true" isMandatory="true" length="19"/>
+		<db-attribute name="NAME" type="VARCHAR" isMandatory="true" length="100"/>
+	</db-entity>
+	<db-entity name="ARTIST_EXHIBIT" catalog="bqdemo">
+		<db-attribute name="ARTIST_ID" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="19"/>
+		<db-attribute name="EXHIBIT_ID" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="19"/>
+	</db-entity>
+	<db-entity name="EXHIBIT" catalog="bqdemo">
+		<db-attribute name="ENDS" type="DATE" isMandatory="true" length="10"/>
+		<db-attribute name="ID" type="BIGINT" isPrimaryKey="true" isGenerated="true" isMandatory="true" length="19"/>
+		<db-attribute name="NAME" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="PLACE" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="STARTS" type="DATE" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="PAINTING" catalog="bqdemo">
+		<db-attribute name="ARTIST_ID" type="BIGINT" isMandatory="true" length="19"/>
+		<db-attribute name="ID" type="BIGINT" isPrimaryKey="true" isGenerated="true" isMandatory="true" length="19"/>
+		<db-attribute name="NAME" type="VARCHAR" isMandatory="true" length="100"/>
+	</db-entity>
+	<obj-entity name="Artist" className="com.objectstyle.bq_demo.cayenne.Artist" dbEntityName="ARTIST">
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="NAME"/>
+	</obj-entity>
+	<obj-entity name="Exhibit" className="com.objectstyle.bq_demo.cayenne.Exhibit" dbEntityName="EXHIBIT">
+		<obj-attribute name="ends" type="java.util.Date" db-attribute-path="ENDS"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="NAME"/>
+		<obj-attribute name="place" type="java.lang.String" db-attribute-path="PLACE"/>
+		<obj-attribute name="starts" type="java.util.Date" db-attribute-path="STARTS"/>
+	</obj-entity>
+	<obj-entity name="Painting" className="com.objectstyle.bq_demo.cayenne.Painting" dbEntityName="PAINTING">
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="NAME"/>
+	</obj-entity>
+	<db-relationship name="artistExhibits" source="ARTIST" target="ARTIST_EXHIBIT" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="ID" target="ARTIST_ID"/>
+	</db-relationship>
+	<db-relationship name="paintings" source="ARTIST" target="PAINTING" toMany="true">
+		<db-attribute-pair source="ID" target="ARTIST_ID"/>
+	</db-relationship>
+	<db-relationship name="artist" source="ARTIST_EXHIBIT" target="ARTIST" toMany="false">
+		<db-attribute-pair source="ARTIST_ID" target="ID"/>
+	</db-relationship>
+	<db-relationship name="exhibit" source="ARTIST_EXHIBIT" target="EXHIBIT" toMany="false">
+		<db-attribute-pair source="EXHIBIT_ID" target="ID"/>
+	</db-relationship>
+	<db-relationship name="artistExhibits" source="EXHIBIT" target="ARTIST_EXHIBIT" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="ID" target="EXHIBIT_ID"/>
+	</db-relationship>
+	<db-relationship name="artist" source="PAINTING" target="ARTIST" toMany="false">
+		<db-attribute-pair source="ARTIST_ID" target="ID"/>
+	</db-relationship>
+	<obj-relationship name="exhibits" source="Artist" target="Exhibit" db-relationship-path="artistExhibits.exhibit"/>
+	<obj-relationship name="paintings" source="Artist" target="Painting" deleteRule="Deny" db-relationship-path="paintings"/>
+	<obj-relationship name="artists" source="Exhibit" target="Artist" db-relationship-path="artistExhibits.artist"/>
+	<obj-relationship name="artist" source="Painting" target="Artist" deleteRule="Nullify" db-relationship-path="artist"/>
+</data-map>

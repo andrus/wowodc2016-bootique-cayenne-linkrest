@@ -1,0 +1,9 @@
+jdbc:
+  bqdemo:
+    url: "jdbc:mysql://192.168.99.100:3306/bqdemo?connectTimeout=0&autoReconnect=true"
+    initialSize: 1
+    username: root
+    password: root
+
+cayenne:
+  datasource: bqdemo
